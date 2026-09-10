@@ -1,5 +1,4 @@
-export class Post
-{
+export class Post {
   id: number;
   alias: string;
   title: string;
