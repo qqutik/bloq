@@ -1,4 +1,4 @@
-export enum MysqlErrorCode
-{
+export enum MysqlErrorCode {
   DUPLICATE_ENTRY = 'ER_DUP_ENTRY',
+  NO_REFERENCED_ROW = 'ER_NO_REFERENCED_ROW_2',
 }

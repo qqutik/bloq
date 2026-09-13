@@ -12,16 +12,20 @@ export class PostsService {
     private readonly postsRepository: Repository<Post>,
   ) {}
 
-  async create(createPostDto: CreatePostDto) {
-    const post = this.postsRepository.create(createPostDto);
+  public async create(createPostDto: CreatePostDto) {
+    const { userId, ...rest } = createPostDto;
+    const post = this.postsRepository.create({
+      ...rest,
+      user: { id: userId },
+    });
     return this.postsRepository.save(post);
   }
 
-  async findAll() {
+  public async findAll() {
     return this.postsRepository.find();
   }
 
-  async findOne(id: number) {
+  public async findOne(id: number) {
     const post = await this.postsRepository.findOneBy({ id });
     if (!post) {
       throw new NotFoundException(`Post #${id} not found`);
@@ -29,13 +33,13 @@ export class PostsService {
     return post;
   }
 
-  async update(id: number, updatePostDto: UpdatePostDto) {
+  public async update(id: number, updatePostDto: UpdatePostDto) {
     const post = await this.findOne(id);
     Object.assign(post, updatePostDto);
     return this.postsRepository.save(post);
   }
 
-  async remove(id: number) {
+  public async remove(id: number) {
     const post = await this.findOne(id);
     return this.postsRepository.remove(post);
   }

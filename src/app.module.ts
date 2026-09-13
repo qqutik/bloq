@@ -7,6 +7,10 @@ import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
 import { PostsService } from './posts/posts.service.js';
 import { Post } from './posts/entities/post.entity.js';
 import { PostsController } from './posts/posts.controller.js';
+import { UsersModule } from './users/users.module.js';
+import { User } from './users/entities/user.entity.js';
+import { UsersController } from './users/users.controller.js';
+import { UsersService } from './users/users.service.js';
 
 export const { ObserveModule, ObserveInstrument } = createObserveModule();
 
@@ -37,13 +41,14 @@ export const { ObserveModule, ObserveInstrument } = createObserveModule();
       serviceId: 'bloq',
     }),
     PostsModule,
+    UsersModule,
   ],
   controllers: [],
   providers: [],
 })
 @Module({
-  imports: [TypeOrmModule.forFeature([Post])],
-  controllers: [PostsController],
-  providers: [PostsService],
+  imports: [TypeOrmModule.forFeature([Post,User])],
+  controllers: [PostsController,UsersController],
+  providers: [PostsService,UsersService],
 })
 export class AppModule {}

@@ -22,6 +22,14 @@ export class QueryFailedFilter implements ExceptionFilter {
       });
     }
 
+    if (driverError?.code === MysqlErrorCode.NO_REFERENCED_ROW) {
+      return response.status(HttpStatus.BAD_REQUEST).json({
+        statusCode: HttpStatus.BAD_REQUEST,
+        error: 'Bad Request',
+        message: ErrorMessages.REFERENCED_NOT_FOUND,
+      });
+    }
+
     // не дублікат — лишаємо як 500
     return response.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
       statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
