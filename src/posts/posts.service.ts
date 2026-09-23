@@ -12,21 +12,23 @@ export class PostsService {
     private readonly postsRepository: Repository<Post>,
   ) {}
 
-  public async create(createPostDto: CreatePostDto) {
-    const { userId, ...rest } = createPostDto;
+  public async create(createPostDto: CreatePostDto, userId: number) {
     const post = this.postsRepository.create({
-      ...rest,
+      ...createPostDto,
       user: { id: userId },
     });
     return this.postsRepository.save(post);
   }
 
   public async findAll() {
-    return this.postsRepository.find();
+    return this.postsRepository.find({ relations: { user: true } });
   }
 
   public async findOne(id: number) {
-    const post = await this.postsRepository.findOneBy({ id });
+    const post = await this.postsRepository.findOne({
+      where: { id },
+      relations: { user: true },
+    });
     if (!post) {
       throw new NotFoundException(`Post #${id} not found`);
     }

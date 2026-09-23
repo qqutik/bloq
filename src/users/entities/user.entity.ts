@@ -7,6 +7,7 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 import type { Post } from '../../posts/entities/post.entity.js';
+import { Exclude } from 'class-transformer';
 
 @Entity('users')
 export class User {
@@ -18,6 +19,10 @@ export class User {
 
   @Column('varchar', { length: 255, nullable: false, unique: true })
   email: string;
+
+  @Exclude()
+  @Column('varchar', { length: 255, nullable: false, select: false })
+  password: string;
 
   @Column('text', { nullable: true })
   bio: string;

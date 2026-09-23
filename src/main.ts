@@ -1,6 +1,6 @@
-import { NestFactory } from '@nestjs/core';
+import { NestFactory, Reflector } from '@nestjs/core';
 import { AppModule, ObserveInstrument } from './app.module.js';
-import { ValidationPipe } from '@nestjs/common';
+import { ClassSerializerInterceptor, ValidationPipe } from '@nestjs/common';
 import { QueryFailedFilter } from './common/filters/query-failed.filter.js';
 
 async function bootstrap() {
@@ -8,6 +8,7 @@ async function bootstrap() {
     instrument: ObserveInstrument,
   });
   app.useGlobalPipes(new ValidationPipe({ whitelist: true, transform: true }));
+  app.useGlobalInterceptors(new ClassSerializerInterceptor(app.get(Reflector)));
   app.useGlobalFilters(new QueryFailedFilter());
   await app.listen(process.env.PORT ?? 3000);
 }

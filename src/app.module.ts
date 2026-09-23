@@ -11,6 +11,7 @@ import { UsersModule } from './users/users.module.js';
 import { User } from './users/entities/user.entity.js';
 import { UsersController } from './users/users.controller.js';
 import { UsersService } from './users/users.service.js';
+import { AuthModule } from './auth/auth.module.js';
 
 export const { ObserveModule, ObserveInstrument } = createObserveModule();
 
@@ -42,13 +43,14 @@ export const { ObserveModule, ObserveInstrument } = createObserveModule();
     }),
     PostsModule,
     UsersModule,
+    AuthModule,
   ],
   controllers: [],
   providers: [],
 })
 @Module({
-  imports: [TypeOrmModule.forFeature([Post,User])],
-  controllers: [PostsController,UsersController],
-  providers: [PostsService,UsersService],
+  imports: [TypeOrmModule.forFeature([Post, User])],
+  controllers: [PostsController, UsersController],
+  providers: [PostsService, UsersService],
 })
 export class AppModule {}
